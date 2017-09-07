@@ -12,11 +12,11 @@
             <input type="text" name="applicant" value='' required="required" title="请输入申请人" placeholder="请输入申请人" class="layui-input">    
         </div>
     </div>
-
     <div class="layui-form-item">
         <label class="layui-form-label">服务开始时间</label>
         <div class="layui-input-block">
-            <input type="text" name="starttime" value='' title="请输入服务开始时间" placeholder="请输入服务开始时间" class="layui-input" required>
+            <input id="starttime" type="text" name="starttime" value='' title="请输入服务开始时间" placeholder="请输入服务开始时间" class="layui-input" required>
+
         </div>
     </div>
 
@@ -28,7 +28,7 @@
     </div>
     
     <div class="layui-form-item">
-        <label class="layui-form-label">服务类型</label>
+        <label class="layui-form-label">服务状态</label>
         <div class="layui-input-block">
             <select name='status' class='layui-select full-width' style='display:none' required>
             <!--{foreach $statuss as $status}-->
@@ -80,5 +80,22 @@
         <button class="layui-btn layui-btn-danger" type='button' onclick="window.history.back()">取消编辑</button>
     </div>
     <script>window.form.render();</script>
-    
 </form>
+
+
+ 
+<div class="layui-inline"> <!-- 注意：这一层元素并不是必须的 -->
+  <input type="text" class="layui-input" id="test1">
+</div>
+ 
+
+<script>
+layui.use('laydate', function(){
+  var laydate = layui.laydate;
+  alert(laydate.v);
+  //执行一个laydate实例
+  // laydate.render({
+  //   elem: '#test1' //指定元素
+  // });
+});
+</script>

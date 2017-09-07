@@ -69,13 +69,11 @@
             <td  id="td_status_{$vo.id}" class="text-center">{$vo.servcompleted|getServCom}</td> 
             <td class="text-center">{$vo.describe}</td> 
             <td class="text-center">
-
-                 <a id="servdo_{$vo.id}" value="{$vo.id}" onclick="servdo({$vo.id},'1')" >确认
-                </a>
+                <a data-open='{:url("Customer/customer_info")}?id={$vo.servedman}' data-title="查看" href="javascript:void(0)">查看</a>
+                <span class="text-explode">|</span>
+                <a id="servdo_{$vo.id}" value="{$vo.id}" onclick="servdo({$vo.id},'1')" >确认</a>
                  <span class="text-explode">|</span>
-                <a id="servdo_{$vo.id}" value="{$vo.id}" onclick="servdo({$vo.id},'0')" >取消
-                </a>
-          
+                <a id="servdo_{$vo.id}" value="{$vo.id}" onclick="servdo({$vo.id},'0')" >取消</a>
             </td> 
         </tr>
         {/foreach}

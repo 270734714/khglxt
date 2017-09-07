@@ -70,10 +70,12 @@
         <!-- 备注 -->
         <tr>
             <th class="th-b text-center">备注</th>
-            <td class="nowrap rzinfo" colspan="10">
-                {$customer.desc|default=''}
+            <td class="text-center" colspan="10">
+                    <textarea disabled class="layui-textarea">{$customer.desc|default=""}</textarea>
             </td>
         </tr>
+
+        
     </table>
    
     <!-- 服务申请 -->
@@ -101,7 +103,7 @@
                         <td class="text-center">{$vo.endtime|date='Y-m-d',###}</td> 
                         <td class="text-center">{$vo.status|getServstutas}</td> 
                         <td class="text-center">{$vo.type|getFollowupType}</td> 
-                        <td class="text-center">{$vo.describe|default=''}</td>  
+                        <td class="text-center">{$vo.describe|msubstr=0,30,'utf-8',false}</td>  
                     </tr>
                     {/volist}
                 </table>
