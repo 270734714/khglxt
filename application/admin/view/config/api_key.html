@@ -1,0 +1,53 @@
+{extend name="extra@admin/content"}
+
+{block name="content"}
+<form onsubmit="return false;" action="__SELF__" data-auto="true" method="post" class='form-horizontal' style='padding-top:20px'>
+
+    <div class="form-group">
+        <label class="col-sm-2 control-label">Secret Key</label>
+        <div class='col-sm-8 layui-input-inline'>
+            <input type="text" name="api_key" required="required" class="layui-input" value="{:sysconf('api_key')}" maxlength="16" placeholder="请输入Secret Key" pattern="^[0-9a-zA-Z]{16}$">
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label class="col-sm-2 control-label">Initialization Vector</label>
+        <div class='col-sm-8'>
+            <input type="text" name="api_iv" required="required" class="layui-input" value="{:sysconf('api_iv')}" maxlength="16" placeholder="请输入IV" pattern="^[0-9a-zA-Z]{16}$">
+        </div>
+    </div>
+
+    <div class="hr-line-dashed"></div>
+
+    <div class="col-sm-4 col-sm-offset-2">
+        <div class="layui-form-item text-center">
+            <button class="layui-btn" type="submit">保存配置</button>
+            <button class="layui-btn layui-btn-danger" id="reset" data-confirm="订单">重置秘钥</button>
+        </div>
+    </div>
+
+</form>
+
+{/block}
+
+{block name="script"}
+<script>
+    $(function () {
+        var get_random = function (length) {
+            length = length || 16
+            var chars = 'ABCDEFGHJKMNPQRSTWXYZabcdefhijkmnprstwxyz2345678';
+            var maxPos = chars.length;
+            var pwd = '';
+            for (i = 0; i < length; i++) {
+                pwd += chars.charAt(Math.floor(Math.random() * maxPos));
+            }
+            return pwd;
+        };
+        $('#reset').on('click', function () {
+            $("input[name=api_key]").val(get_random())
+            $("input[name=api_iv]").val(get_random())
+            return false
+        });
+    });
+</script>
+{/block}

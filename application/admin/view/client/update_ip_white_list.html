@@ -1,0 +1,43 @@
+<!--
+ * User: Jasmine2
+ * Date: 2017-7-19 16:51
+ * Email: youjingqiang@gmail.com
+ * Copyright (c) Guangzhou Zhishen Data Service co,. Ltd
+-->
+<form class="layui-form layui-box" style='padding:25px 30px 20px 0' action="__SELF__" data-auto="true" method="post">
+
+    <div class="layui-form-item">
+        <label class="layui-form-label">应用名称</label>
+        <div class="layui-input-block">
+            {if $vo and isset($vo.app_name)}
+            <input type="text" readonly="" disabled="" name="app_name" value='{$vo.app_name|default=""}' required="required" title="请输入应用名称" placeholder="请输入应用名称" class="layui-input disabled" pattern="^[a-zA-Z0-9-_]+$">
+            {else}
+            <input type="text" name="app_name" value='{$vo.app_name|default=""}' required="required" title="请输入应用名称" placeholder="请输入应用名称" class="layui-input" pattern="^[a-zA-Z0-9-_]+$">
+            {/if}
+        </div>
+    </div>
+
+    <div class="layui-form-item">
+        <label class="layui-form-label">IP白名单</label>
+        <div class="layui-input-block">
+            <textarea name="ip_white_list" class="layui-textarea" pattern="^(?:(%)|(((0.0.0.0\/0)|(((?:25[0-5]|2[0-4]\d|1\d\d|\d{2}|\d)\.){3}((?:25[0-5]|2[0-4]\d|1\d\d|\d{2}|\d))(\/(?:[1-9]|1[0-9]|2[0-9]|3[0-2]))?))\,){0,999}(0.0.0.0\/0|((?:25[0-5]|2[0-4]\d|1\d\d|\d{2}|\d)\.){3}((?:25[0-5]|2[0-4]\d|1\d\d|\d{2}|\d))(\/(?:[1-9]|1[0-9]|2[0-9]|3[0-2]))?)|((0.0.0.0\/0)|(((?:25[0-5]|2[0-4]\d|1\d\d|\d{2}|\d)\.){3}((?:25[0-5]|2[0-4]\d|1\d\d|\d{2}|\d))(\/(?:[1-9]|1[0-9]|2[0-9]|3[0-2]))?)))$" title="格式不正确">{$vo.ip_white_list}</textarea>
+            <div class="help-block">
+                <ol class="text-danger">
+                    <li>禁止访问: 127.0.0.1</li>
+                    <li>不限制IP: 0.0.0.0/0</li>
+                    <li>多个IP请使用半角逗号(,)分割, 如: 123.123.123.123,111.111.111.111</li>
+                </ol>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="hr-line-dashed"></div>
+
+    <input type="hidden" name="user_id" value="{$vo.user_id}">
+    <div class="layui-form-item text-center">
+        {if isset($vo['id'])}<input type='hidden' value='{$vo.id}' name='id'/>{/if}
+        <button class="layui-btn" type='submit'>保存数据</button>
+        <button class="layui-btn layui-btn-danger" type='button' data-confirm="确定要取消编辑吗？" data-close>取消编辑</button>
+    </div>
+</form>

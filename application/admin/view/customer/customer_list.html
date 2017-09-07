@@ -1,0 +1,135 @@
+<!--
+ * User: Jasmine2
+ * Date: 2017-7-4 16:47
+ * Email: youjingqiang@gmail.com
+ * Copyright (c) Guangzhou Zhishen Data Service co,. Ltd
+-->
+{extend name='extra@admin/content'}
+
+{block name="button"}
+<div class="nowrap pull-right" style="margin-top:10px">
+    {if isset($authorizes_bj)}
+    <button data-modal='{:url("Customer/add")}' data-title="添加客户" class='layui-btn layui-btn-small'><i
+            class='fa fa-plus'></i> 添加客户
+    </button>
+    {if auth("$classuri/del")}
+    <button data-update data-field='delete' data-action='{:url("Customer/del")}'
+            class='layui-btn layui-btn-small layui-btn-danger'><i class='fa fa-remove'></i> 删除客户
+    </button>
+    {/if}
+    {/if}
+    {if isset($authorizes)}
+    <button id="btnapply" data-open='{:url("Customer/customer_apply")}' onclick="getCheckbox()" data-title="服务申请" class='layui-btn layui-btn-small'>服务申请
+    </button>
+    {/if}
+</div>
+{/block}
+
+{block name="content"}
+
+<!-- 表单搜索 开始 -->
+<form class="animated form-search" action="__SELF__" onsubmit="return false" method="get">
+
+    <div class="row">
+        <div class="col-xs-3">
+            <div class="form-group">
+                <input type="text" name="key" value="{$Think.get.key|default=''}" placeholder="姓名" class="input-sm form-control">
+            </div>
+        </div>
+        <div class="col-xs-1">
+            <div class="form-group">
+                <button type="submit" class="btn btn-sm btn-white"><i class="fa fa-search"></i> 搜索</button>
+            </div>
+        </div>
+    </div>
+</form>
+<!-- 表单搜索 结束 -->
+
+
+
+<form onsubmit="return false;" data-auto="true" method="post">
+    <input type="hidden" value="resort" name="action"/>
+    <table class="table table-hover">
+        <thead>
+        <tr>
+            <th class='list-table-check-td'>
+                {if isset($authorizes_bj)}
+                <input data-none-auto="" data-check-target='.list-check-box' type='checkbox'/>
+                {/if}
+            </th>
+            <th class="text-center">姓名</th>
+            <th class="text-center">电话</th>
+            <th class="text-center">公司</th>
+            <th class="text-center">所在地区</th>
+            <th class="text-center">邮箱</th>
+            <th class="text-center">微信</th>
+            <th class="text-center">QQ</th>
+            <th class="text-center">从事行业</th>
+            <th class="text-center">目标产品</th>
+            <th class="text-center">客户来源</th>
+            <th class="text-center">客户类型</th>
+            <th class="text-center">客户状态</th>
+            <th class="text-center">下次跟进时间</th>
+            <th class="text-center">备注</th>
+            <th class='text-center'>操作</th>
+        </tr>
+        </thead>
+        <tbody>
+        {foreach $list as $key=>$vo}
+        <tr>
+            <td class='list-table-check-td'>
+                {if isset($authorizes_bj)}
+                <input class="list-check-box" value='{$vo.id}' type='checkbox'/>
+                {/if}
+            </td>
+            <td class="text-center">{$vo.name}</td>
+            <td class="text-center">{$vo.tel}</td>
+            <td class="text-center">{$vo.company}</td>
+            <td class="text-center">{$vo.location}</td>
+            <td class="text-center">{$vo.email}</td>
+            <td class="text-center">{$vo.wechat}</td>
+            <td class="text-center">{$vo.qq}</td>
+            <td class="text-center">{$vo.industry}</td>
+            <td class="text-center">{$vo.objective|getObjectiveLabel}</td>
+            <td class="text-center">{$vo.source|getSource}</td>
+            <td class="text-center">{$vo.types|getTypes}</td>
+            <td class="text-center">{$vo.status|getStatus}</td>
+            {if isset($vo.followtime)}
+            <td class="text-center">{$vo.followtime|date='Y-m-d',###}</td>
+            {else}
+            <td class="text-center"></td>
+            {/if}
+            <td class="text-center">{$vo.remarks|msubstr=0,20,'utf-8',false}</td>
+            <td class="text-center nowrap">
+                {if isset($authorizes_bj)}  
+                <span class="text-explode">|</span>
+                    <a data-modal='{:url("Customer/edit")}?id={$vo.id}' href="javascript:void(0)">编辑</a>
+                 {/if}
+                <span class="text-explode">|</span>
+                    <a data-open='{:url("Customer/customer_info")}?id={$vo.id}' data-title="查看" href="javascript:void(0)">查看</a>
+
+                <!-- <span class="text-explode">|</span>
+                    <a data-update="{$vo.id}" data-field='delete' data-action='{:url("Customer/del")}' href="javascript:void(0)">删除</a> -->
+                {if isset($authorizes)} 
+                {if $vo.operatorid == $Think.session.user.id}
+                <span class="text-explode">|</span>
+                <a data-modal='{:url("Customer/followup")}?id={$vo.id}&uid={$vo.id}' data-title="客户({$vo.name})常规跟进" href="javascript:void(0)">常规跟进</a>
+                {/if}
+                {/if}
+            </td>
+        </tr>
+        {/foreach}
+        </tbody>
+    </table>
+    {if isset($page)}<p>{$page}</p>{/if}
+</form>
+<script type="text/javascript">
+    function getCheckbox(){
+        var ids = [];
+        $('input:checkbox:checked').each(function (index, item) {
+            ids.push($(this).val());
+        });
+        $("#btnapply").attr("data-open",'{:url("Customer/customer_apply")}?id='+ids);
+    }
+</script>
+{/block}

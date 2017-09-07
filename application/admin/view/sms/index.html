@@ -1,0 +1,35 @@
+<!--
+* User: Jasmine2
+* Date: 2017-6-25 18:58
+* Email: youjingqiang@gmail.com
+* Copyright (c) Guangzhou Zhishen Data Service co,. Ltd
+-->
+{extend name='extra@admin/content'}
+{block name="content"}
+<form onsubmit="return false;" data-auto="true" method="post">
+    <input type="hidden" value="resort" name="action"/>
+    <table class="table table-hover">
+        <thead>
+        <tr>
+            <th class='text-center'>手机号码</th>
+            <th class='text-center'>短信内容</th>
+            <th class='text-center'>ip</th>
+            <th class='text-center'>发送状态</th>
+            <th class='text-center'>添加时间</th>
+        </tr>
+        </thead>
+        <tbody>
+        {foreach $list as $key=>$vo}
+        <tr>
+            <td class='text-center'>{:mobile_mask($vo.mobile)}({$vo.mobile|getMobileRegion})</td>
+            <td >{$vo.content}</td>
+            <td >{$vo.ip}({$vo.isp})</td>
+            <td >{$vo.resp}</td>
+            <td class='text-center'>{$vo.created_at|date='Y-m-d H:i',###}</td>
+        </tr>
+        {/foreach}
+        </tbody>
+    </table>
+    {if isset($page)}<p>{$page}</p>{/if}
+</form>
+{/block}

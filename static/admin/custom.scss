@@ -1,0 +1,113 @@
+/**
+ * Custom Css
+ */
+a.layui-btn{
+  text-decoration: none;
+}
+.th-b{
+  background: rgb(243,243,243);
+  vertical-align: middle;
+}
+.img-face{
+  width: 50px;
+  height: 50px;
+  background-color: #f9cece;
+  line-height: 50px;
+  text-align: center;
+  font-size: 26px;
+  color: #fff;
+}
+.ibox-content{
+  overflow-y: scroll;
+}
+$sfx : 40px;
+.sidebar-fold-xs{
+  display: block!important;
+  position: fixed;
+  z-index: 100000;
+  width: $sfx;
+  height: $sfx;
+  line-height: $sfx;
+  border-radius: 2px;
+  background-color: rgba(0,0,0,0.7);
+  text-align: center;
+  color: white;
+  right: 15px;
+  bottom: 15px;
+  &:hover{
+    cursor: pointer;
+  }
+}
+$sfx-t: 30px;
+.t-button{
+  display: block!important;
+  position: fixed;
+  z-index: 100000;
+  width: $sfx-t;
+  height: $sfx-t;
+  line-height: $sfx-t;
+  border-radius: 2px;
+  background-color: rgba(0,0,0,0.7);
+  text-align: center;
+  color: white;
+  right: 10px;
+  top: 10px;
+  &:hover{
+    cursor: pointer;
+  }
+  &.active{
+    transform:rotate(-180deg);
+    -webkit-transform:rotate(-180deg);
+    -moz-transform:rotate(-180deg);
+    -ms-transform:rotate(-180deg);
+    -o-transform:rotate(-180deg)
+  }
+}
+.r-button{
+  display: block!important;
+  position: fixed;
+  z-index: 100000;
+  width: $sfx-t;
+  height: $sfx-t;
+  line-height: $sfx-t;
+  border-radius: 2px;
+  background-color: rgba(0,0,0,0.7);
+  text-align: center;
+  color: white;
+  right: 50px;
+  top: 10px;
+  &:hover{
+    cursor: pointer;
+  }
+  &.active{
+    transform:rotate(-180deg);
+    -webkit-transform:rotate(-180deg);
+    -moz-transform:rotate(-180deg);
+    -ms-transform:rotate(-180deg);
+    -o-transform:rotate(-180deg)
+  }
+}
+ul.h5-menu {
+  &.closed{
+    display: none;
+  }
+  &.active{
+    display: block;
+  }
+  width: 120px;
+  display: block;
+  background-color: rgb(255,255,255);
+  color: #000000;
+  position: absolute;
+  top: 50px;
+  right: 0px;
+  li{
+    display: block;
+    height: 35px;
+    line-height: 35px;
+    font-size: 14px;
+    width: 100%;
+    text-align: center;
+    border-bottom: solid 1px #DDDDDD;
+  }
+}

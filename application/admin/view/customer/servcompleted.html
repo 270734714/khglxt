@@ -1,0 +1,114 @@
+<!--
+ * User: Jasmine2
+ * Date: 2017-7-4 16:47
+ * Email: youjingqiang@gmail.com
+ * Copyright (c) Guangzhou Zhishen Data Service co,. Ltd
+-->
+{extend name='extra@admin/content'}
+{block name="button"}
+<div class="nowrap pull-right" style="margin-top:10px">
+    <button id="btnapply" onclick="getCheckbox()" data-title="服务申请" class='layui-btn layui-btn-small'>批量确认
+    </button>
+</div>
+{/block}
+{block name="content"}
+
+<!-- 表单搜索 开始 -->
+<form class="animated form-search" action="__SELF__" onsubmit="return false" method="get">
+
+    <div class="row">
+        <div class="col-xs-3">
+            <div class="form-group">
+                <input type="text" name="key" value="{$Think.get.key|default=''}" placeholder="姓名" class="input-sm form-control">
+            </div>
+        </div>
+        <div class="col-xs-1">
+            <div class="form-group">
+                <button type="submit" class="btn btn-sm btn-white"><i class="fa fa-search"></i> 搜索</button>
+            </div>
+        </div>
+    </div>
+</form>
+<!-- 表单搜索 结束 -->
+
+<form onsubmit="return false;" data-auto="true" method="post">
+    <input type="hidden" value="resort" name="action"/>
+    <table class="table table-hover">
+        <thead>
+        <tr>
+            <th class='list-table-check-td'>
+                <!-- <input data-none-auto="" data-check-target='.list-check-box' type='checkbox'/> -->
+            </th>
+            <th class="text-center">服务ID</th>
+            <th class="text-center">申请人</th>
+            <th class="text-center">被服务客户</th>
+            <th class="text-center">服务开始时间</th>
+            <th class="text-center">服务结束时间</th>
+            <th class="text-center">服务类型</th>
+            <th class="text-center">处理人</th>
+            <th class="text-center">状态</th>
+            <th class="text-center">助理确认</th>
+            <th class="text-center">描述</th>
+            <th class="text-center">操作</th>
+        </tr>
+        </thead>
+        <tbody>
+        {foreach $list as $key=>$vo}
+        <tr>
+            <td class='list-table-check-td'>
+                <input class="list-check-box" value='{$vo.id}' type='checkbox'/>
+            </td>
+            <td class="text-center">{$vo.serveid}</td>
+            <td class="text-center">{$vo.applicant}</td>
+            <td class="text-center">{$vo.servedman|getFollowupName}</td>
+            <td class="text-center">{$vo.starttime|date='Y-m-d',###}</td>
+            <td class="text-center">{$vo.endtime|date='Y-m-d',###}</td> 
+            <td class="text-center">{$vo.type|getFollowupType}</td> 
+            <td class="text-center">{$vo.doman}</td> 
+            <td class="text-center">{$vo.status|getServstutas}</td> 
+            <td  id="td_status_{$vo.id}" class="text-center">{$vo.servcompleted|getServCom}</td> 
+            <td class="text-center">{$vo.describe}</td> 
+            <td class="text-center">
+
+                 <a id="servdo_{$vo.id}" value="{$vo.id}" onclick="servdo({$vo.id},'1')" >确认
+                </a>
+                 <span class="text-explode">|</span>
+                <a id="servdo_{$vo.id}" value="{$vo.id}" onclick="servdo({$vo.id},'0')" >取消
+                </a>
+          
+            </td> 
+        </tr>
+        {/foreach}
+        </tbody>
+    </table>
+    {if isset($page)}<p>{$page}</p>{/if}
+</form>
+
+ <script>
+    //ajax确认服务申请
+    function servdo(id,flog){
+        $.post("{:url("Customer/ajax_customer_apply")}",{id:id,flog:flog},function(res){
+            if(res == '1'){
+                if(flog == '0'){
+                    flog = '<i  style="color: red">取消</i>';
+                }else{
+                    flog = '<i style="color: green">已确认</i>';
+                }
+               $('#td_status_'+id).html(flog);
+            }
+        });
+    }
+
+    function getCheckbox(){
+        var ids = [];
+        $('input:checkbox:checked').each(function (index, item) {
+            ids.push($(this).val());
+        });
+        $.post("{:url("Customer/ajax_customer_apply")}",{id:ids,flog:'1'},function(res){
+            if(res == '1'){
+                window.location.reload();
+            }
+        });
+    }
+ </script>
+{/block}

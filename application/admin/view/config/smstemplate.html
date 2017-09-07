@@ -1,0 +1,30 @@
+<!--
+ * User: Jasmine2
+ * Date: 2017-7-11 16:41
+ * Email: youjingqiang@gmail.com
+ * Copyright (c) Guangzhou Zhishen Data Service co,. Ltd
+-->
+{extend name="extra@admin/content"}
+
+{block name="content"}
+<form onsubmit="return false;" action="__SELF__" data-auto="true" method="post" class='form-horizontal' style='padding-top:20px'>
+
+    <div class="form-group">
+        <label class="col-sm-2 control-label"><span class="nowrap">验证码</span></label>
+        <div class='col-sm-8'>
+            <input type="text" name="sms_template_captcha" required="required" title="请输入验证码模板"
+                   placeholder="请输入验证码模板" value="{:sysconf('sms_template_captcha')}" maxlength="255" class="layui-input">
+            <p class="help-block">%s代表验证码</p>
+        </div>
+    </div>
+
+    <div class="hr-line-dashed"></div>
+
+    <div class="col-sm-4 col-sm-offset-2">
+        <div class="layui-form-item text-center">
+            <button class="layui-btn" type="submit">保存配置</button>
+        </div>
+    </div>
+
+</form>
+{/block}

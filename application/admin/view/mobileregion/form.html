@@ -1,0 +1,53 @@
+<form class="layui-form layui-box" style='padding:25px 30px 20px 0' action="__SELF__" data-auto="true" method="post">
+    <div class="layui-form-item">
+        <label class="layui-form-label">手机号码前缀</label>
+        <div class="layui-input-block">
+            {if $vo and isset($vo.mobile)}
+                <input type="text" name="mobile" value='{$vo.mobile|default=""}' required="required" title="请输入手机号码前缀" placeholder="请输入手机号码前缀" class="layui-input" readonly disabled>
+            {else}
+                <input type="text" name="mobile" value='{$vo.mobile|default=""}' required="required" title="请输入手机号码前缀" placeholder="请输入手机号码前缀" class="layui-input" maxlength="7" pattern="^\d{7}$">
+            {/if}
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">运营商</label>
+        <div class="layui-input-block">
+            <input type="text" name="corp" value='{$vo.corp|default=""}' required="required" title="请输入运营商" placeholder="请输入运营商" class="layui-input">
+        </div>
+    </div>
+
+    <div class="layui-form-item">
+        <label class="layui-form-label">省</label>
+        <div class="layui-input-block">
+            <input type="text" name="province" required="required" title="请输入省份" placeholder="请输入省份" value="{$vo.province|default=''}" class="layui-input">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">市</label>
+        <div class="layui-input-block">
+            <input type="text" name="city" required="required" title="请输入城市" placeholder="请输入城市" value="{$vo.city|default=''}" class="layui-input">
+        </div>
+    </div>
+
+    <div class="layui-form-item">
+        <label class="layui-form-label">区号</label>
+        <div class="layui-input-block">
+            <input type="text" name="areacode" required="required" title="请输入区号" placeholder="请输入区号" value="{$vo.areacode|default='0000'}" class="layui-input" pattern="^\d{2,4}$">
+        </div>
+    </div>
+
+    <div class="layui-form-item">
+        <label class="layui-form-label">邮政编码</label>
+        <div class="layui-input-block">
+            <input type="text" name="postcode" required="required" title="请输入邮政编码" placeholder="请输入邮政编码" value="{$vo.postcode|default='000000'}" class="layui-input" pattern="^\d{6}$">
+        </div>
+    </div>
+    <div class="hr-line-dashed"></div>
+
+    <div class="layui-form-item text-center">
+        {if isset($vo['id'])}<input type='hidden' value='{$vo.id}' name='id'/>{/if}
+        <button class="layui-btn" type='submit'>保存数据</button>
+        <button class="layui-btn layui-btn-danger" type='button' data-confirm="确定要取消编辑吗？" data-close>取消编辑</button>
+    </div>
+
+</form>

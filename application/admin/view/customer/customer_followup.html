@@ -1,0 +1,78 @@
+<!--
+ * User: xulei
+ * Date: 2017-9-5 16:47
+ * Copyright (c) Guangzhou Zhishen Data Service co,. Ltd
+-->
+{extend name='extra@admin/content'}
+
+{block name="content"}
+
+<!-- 表单搜索 开始 -->
+<form class="animated form-search" action="__SELF__" onsubmit="return false" method="get">
+
+    <div class="row">
+        <div class="col-xs-3">
+            <div class="form-group">
+                <input type="text" name="key" value="{$Think.get.key|default=''}" placeholder="姓名" class="input-sm form-control">
+            </div>
+        </div>
+        <div class="col-xs-1">
+            <div class="form-group">
+                <button type="submit" class="btn btn-sm btn-white"><i class="fa fa-search"></i> 搜索</button>
+            </div>
+        </div>
+    </div>
+</form>
+<!-- 表单搜索 结束 -->
+<form onsubmit="return false;" data-auto="true" method="post">
+    <input type="hidden" value="resort" name="action"/>
+    <table class="table table-hover">
+        <thead>
+        <tr>
+            <th class='list-table-check-td'>
+                <!-- <input data-none-auto="" data-check-target='.list-check-box' type='checkbox'/> -->
+            </th>
+            <th class="text-center">姓名</th>
+            <th class="text-center">跟进原因</th>
+            <th class="text-center">跟进处置</th>
+            <th class="text-center">跟进时间</th>
+
+            <th class="text-center">跟进人</th>
+            <th class="text-center">被跟进人</th>
+            <th class="text-center">跟进情况</th>
+            <th class="text-center">商务跟进原因</th>
+
+            <th class="text-center">备注</th>
+            <th class='text-center'>操作</th>
+        </tr>
+        </thead>
+        <tbody>
+        {foreach $list as $key=>$vo}
+        <tr>
+            <td class='list-table-check-td'>
+                <!-- <input class="list-check-box" value='{$vo.id}' type='checkbox'/> -->
+            </td>
+            <td class="text-center">{$vo.uid|getFollowupName}</td>
+            <td class="text-center">{$vo.disposals|getDisposals}</td>
+            <td class="text-center">{$vo.followup|getFollowup}</td>
+            <td class="text-center">{$vo.disposals|getFollowdate|date='Y-m-d',###}</td>
+
+            <td class="text-center">{$vo.followperson}</td> 
+            <td class="text-center">{$vo.followpersond}</td> 
+            <td class="text-center">{$vo.followsituation}</td> 
+            <td class="text-center">{$vo.followreason}</td> 
+
+            <td class="text-center">{$vo.desc}</td>           
+            <td class="text-center nowrap">
+                <span class="text-explode">|</span>
+                    <a data-open='{:url("Customer/addfollowup")}?id={$vo.id}&uid={$vo.id}' href="javascript:void(0)">客户常规跟进</a>
+              <!--   <span class="text-explode">|</span>
+                    <a data-open='' href="javascript:void(0)">客户服务申请</a> -->
+            </td>
+        </tr>
+        {/foreach}
+        </tbody>
+    </table>
+    {if isset($page)}<p>{$page}</p>{/if}
+</form>
+{/block}

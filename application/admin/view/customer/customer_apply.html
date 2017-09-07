@@ -1,0 +1,84 @@
+<form class="layui-form layui-box" style='padding:25px 30px 20px 0' action="{:url("Customer/customer_apply_add")}" data-auto="true" method="post">
+    <div class="layui-form-item">
+        <label class="layui-form-label">被服务客户</label>
+        <div class="layui-input-block">
+            <input type="text" name="servedman" style="border:none" readonly value='{$userNames}' class="layui-input">
+            <input type="hidden" name="usernameids" value="{$userNameIds}"/>    
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">申请人</label>
+        <div class="layui-input-block">
+            <input type="text" name="applicant" value='' required="required" title="请输入申请人" placeholder="请输入申请人" class="layui-input">    
+        </div>
+    </div>
+
+    <div class="layui-form-item">
+        <label class="layui-form-label">服务开始时间</label>
+        <div class="layui-input-block">
+            <input type="text" name="starttime" value='' title="请输入服务开始时间" placeholder="请输入服务开始时间" class="layui-input" required>
+        </div>
+    </div>
+
+    <div class="layui-form-item">
+        <label class="layui-form-label">服务结束时间</label>
+        <div class="layui-input-block">
+            <input type="text" name="endtime" value='' title="请输入服务结束时间" placeholder="请输入服务结束时间" class="layui-input" required>
+        </div>
+    </div>
+    
+    <div class="layui-form-item">
+        <label class="layui-form-label">服务类型</label>
+        <div class="layui-input-block">
+            <select name='status' class='layui-select full-width' style='display:none' required>
+            <!--{foreach $statuss as $status}-->
+            <!--{eq name='status.id' value='$vo.status|default=0'}-->
+            <option selected  value='{$status.id}'>{$status.name}</option>
+            <!--{else}-->
+            <option  value='{$status.id}'>{$status.name}</option>
+            <!--{/eq}-->
+            <!--{/foreach}-->
+        </select>
+        </div>
+    </div>
+
+    <div class="layui-form-item">
+        <label class="layui-form-label">服务类型</label>
+        <div class="layui-input-block">
+            <select name='type' class='layui-select full-width' style='display:none' required>
+            <!--{foreach $types as $type}-->
+            <!--{eq name='type.id' value='$vo.type|default=0'}-->
+            <option selected  value='{$type.id}'>{$type.name}</option>
+            <!--{else}-->
+            <option  value='{$type.id}'>{$type.name}</option>
+            <!--{/eq}-->
+            <!--{/foreach}-->
+        </select>
+        </div>
+    </div>
+
+    <div class="layui-form-item">
+        <label class="layui-form-label">处理人</label>
+        <div class="layui-input-block">
+            <input type="text" name="doman" value='' title="请输入处理人" placeholder="请输入处理人" class="layui-input" required>
+        </div>
+    </div>
+    
+    <div class="layui-form-item">
+        <label class="layui-form-label">处理情况描述</label>
+        <div class="layui-input-block">
+            <textarea placeholder="处理情况描述" title="请输入处理情况描述" class="layui-textarea" name="describe"></textarea>
+        </div>
+    </div>
+     <div class="hr-line-dashed"></div>
+
+    <div class="layui-form-item text-center">
+ <!--        <input type='hidden' value='<?php echo date('Y-m-d'); ?>' name='followtime'/> -->
+        {if isset($vo['id'])}<input type='hidden' value='{$vo.id}' name='id'/>{/if}
+        <button class="layui-btn" type='submit'>保存数据</button>
+        <!-- <button class="layui-btn" data-submit-role type='button'>保存数据</button> -->
+        <button class="layui-btn layui-btn-danger" type='button' onclick="window.history.back()">取消编辑</button>
+    </div>
+    <script>window.form.render();</script>
+    
+</form>

@@ -1,0 +1,104 @@
+{extend name="extra@admin/content"}
+
+{block name="content"}
+<form onsubmit="return false;" action="__SELF__" data-auto="true" method="post" class='form-horizontal' style='padding-top:20px'>
+
+    <div class="form-group">
+        <label class="col-sm-2 control-label">Sms <span class="nowrap">(短信渠道)</span></label>
+        <div class='col-sm-8'>
+            <select class="layui-input" name="sms_type" required="required">
+                <!--{if sysconf('site_sms_type') eq 'Chuanglan'}-->
+                <option selected="selected" value='Chuanglan'>创蓝短信</option>
+                <!--{/if}-->
+            </select>
+            <div class="help-block" data-storage-type="Chuanglan">
+                若还没有创蓝帐号，请点击
+                <a target="_blank" href="https://www.253.com/zzt_register.html">申请</a>
+            </div>
+        </div>
+    </div>
+
+    <div class="hr-line-dashed" data-storage-type="Chuanglan"></div>
+
+    <div class="form-group" data-storage-type="Chuanglan">
+        <label class="col-sm-2 control-label"><span class="nowrap">接口地址</span></label>
+        <div class='col-sm-8'>
+            <input type="text" name="sms_cl_gateway" required="required" title="请输入账号"
+                   placeholder="请输入接口地址" value="{:sysconf('sms_cl_gateway')}" maxlength="255" class="layui-input">
+        </div>
+    </div>
+
+    <div class="form-group" data-storage-type="Chuanglan">
+        <label class="col-sm-2 control-label"><span class="nowrap">账号</span></label>
+        <div class='col-sm-8'>
+            <input type="text" name="sms_cl_user" required="required" title="请输入账号"
+                   placeholder="请输入账号" value="{:sysconf('sms_cl_user')}" maxlength="16" class="layui-input">
+        </div>
+    </div>
+
+    <div class="form-group" data-storage-type="Chuanglan">
+        <label class="col-sm-2 control-label"><span class="nowrap">密码</span></label>
+        <div class='col-sm-8'>
+            <input type="password" name="sms_cl_password" required="required" title="请输入密码"
+                   placeholder="请输入密码" value="{:sysconf('sms_cl_password')}" maxlength="30" class="layui-input">
+        </div>
+    </div>
+    <div class="form-group" data-storage-type="Chuanglan">
+        <label class="col-sm-2 control-label"><span class="nowrap">签名</span></label>
+        <div class='col-sm-8'>
+            <input type="text" name="sms_cl_sign" required="required" title="请输入短信签名"
+                   placeholder="请输入短信签名" value="{:sysconf('sms_cl_sign')}" maxlength="4" class="layui-input">
+        </div>
+    </div>
+    <div class="form-group" data-storage-type="Chuanglan">
+        <label class="col-sm-2 control-label"><span class="nowrap">扩展码</span></label>
+        <div class='col-sm-8'>
+            <input type="text" name="sms_cl_extno" required="required" title="请输入渠道扩展码"
+                   placeholder="请输入渠道扩展码" value="{:sysconf('sms_cl_extno')}" maxlength="4" class="layui-input">
+        </div>
+    </div>
+
+    <div class="hr-line-dashed"></div>
+
+    <div class="col-sm-4 col-sm-offset-2">
+        <div class="layui-form-item text-center">
+            <button class="layui-btn" type="submit">保存配置</button>
+        </div>
+    </div>
+
+</form>
+<form onsubmit="return false;" action="{:url('admin/config/sms_test')}" data-auto="true" method="post" class='form-horizontal' style='padding-top:20px'>
+    <div class="hr-line-dashed" data-storage-type="Chuanglan"></div>
+
+    <div class="form-group" data-storage-type="Chuanglan">
+        <label class="col-sm-2 control-label"><span class="nowrap">手机号码</span></label>
+        <div class='col-sm-8'>
+            <input type="text" name="mobile" required="required" title="请输入账号"
+                   placeholder="请输入手机号码" value="" maxlength="11" class="layui-input">
+        </div>
+    </div>
+
+    <div class="hr-line-dashed"></div>
+
+    <div class="col-sm-4 col-sm-offset-2">
+        <div class="layui-form-item text-center">
+            <button class="layui-btn layui-btn-danger" type="submit">发送测试短信</button>
+            <a class="layui-btn layui-btn-primary" href="javascript:void(0)" data-action="{:url('admin/config/sms_balance')}" data-update="1" data-field="1">查询余额</a>
+        </div>
+    </div>
+
+</form>
+
+
+
+{/block}
+
+{block name="script"}
+<script>
+    $(function () {
+        $('[name="sms_type"]').on('change', function () {
+            $("[data-storage-type]").not($("[data-storage-type='" + $(this).val() + "']").show()).hide();
+        }).trigger('change');
+    });
+</script>
+{/block}

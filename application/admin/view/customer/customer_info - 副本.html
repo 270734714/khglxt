@@ -1,0 +1,150 @@
+<!--
+ * User: Jasmine2
+ * Date: 2017-7-4 17:48
+ * Email: youjingqiang@gmail.com
+ * Copyright (c) Guangzhou Zhishen Data Service co,. Ltd
+-->
+{extend name='extra@admin/content'}
+{block name='style'}
+<link rel="stylesheet" href="./static/plugs/viewer/viewer.min.css">
+{/block}
+{block name="content"}
+
+<!-- 客户详细列表 -->
+<table class="table">
+    <tr><th class="text-center th-b" colspan="11">客户基本信息</th></tr>
+    <td class="text-center" colspan="11">
+        <table class="table" style="margin-bottom: 0px;">
+            <tr class="th-b">
+                <th class="text-center">姓名</th>
+                <th class="text-center">电话</th>
+                <th class="text-center">公司</th>
+                <th class="text-center">所在地区</th>
+                <th class="text-center">邮箱</th>
+                <th class="text-center">微信</th>
+                <th class="text-center">QQ</th>
+                <th class="text-center">从事行业</th>
+                <th class="text-center">目标产品</th>
+                <th class="text-center">客户来源</th>
+                <th class="text-center">客户类型</th>
+                <th class="text-center">备注</th>
+               
+            </tr>
+            <tr>
+                <td class="text-center">{$customer.name|default=''}</td> 
+                <td class="text-center">{$customer.tel|default=''}</td>
+                <td class="text-center">{$customer.company|default=''}</td> 
+                <td class="text-center">{$customer.location|default=''}</td> 
+                <td class="text-center">{$customer.email|default=''}</td> 
+                <td class="text-center">{$customer.wechat|default=''}</td> 
+                <td class="text-center">{$customer.qq|default=''}</td> 
+                <td class="text-center">{$customer.industry|default=''}</td> 
+                <td class="text-center">{$customer.objective|getObjectiveLabel}</td> 
+                <td class="text-center">{$customer.source|getSource}</td> 
+                <td class="text-center">{$customer.types|getTypes}</td> 
+                <td class="text-center">{$customer.remarks|default=''}</td> 
+            </tr>
+        </table>
+    </td>
+</table>    
+    <!-- 跟进情况 -->
+   <table class="table" style="margin-bottom: 10px;">
+    <!-- 跟进原因 -->
+        <tr>
+            <th class="th-b text-center">跟进原因</th>
+            <td class="text-center" colspan="10">
+                <table class="table" style="margin-bottom: 0px;">
+                    {$customer.followup|getFollowup}
+                </table>
+            </td>
+        </tr>
+
+        <!-- 跟进处置 -->
+        <tr>
+            <th class="th-b text-center">跟进处置</th>
+            <td class="text-center" colspan="10">
+                {$customer.disposals|getDisposals}
+            </td>
+        </tr>
+
+        <!-- 备注 -->
+        <tr>
+            <th class="th-b text-center">备注</th>
+            <td class="nowrap rzinfo" colspan="10">
+                {$customer.desc|default=''}
+            </td>
+        </tr>
+    </table>
+   
+    <!-- 服务申请 -->
+    <table class="table">
+        <tr><th class="text-center th-b" colspan="11">服务申请</th></tr>
+        <tr>
+            <td class="text-center" colspan="11">
+                <table class="table" style="margin-bottom: 0px;">
+                    <tr class="th-b">
+                        <th class="text-center">服务号</th>
+                        <th class="text-center">申请人</th>
+                        <th class="text-center">被服务客户</th>
+                        <th class="text-center">服务开始时间</th>
+                        <th class="text-center">服务结束时间</th>
+                        <th class="text-center">服务状态</th>
+                        <th class="text-center">服务类型</th>
+                        <th class="text-center">描述</th>
+                         {if isset($authorizes_status)}
+                        <th class="text-center">操作</th>
+                        {/if}
+                    </tr>
+                    {volist name="apply_arr" id="vo"}
+                    <tr>
+                        <td class="text-center">{$vo.serveid|default=''}</td> 
+                        <td class="text-center">{$vo.applicant|default=''}</td>
+                        <td class="text-center">{$vo.servedman|getFollowupName}</td> 
+                        <td class="text-center">{$vo.starttime|date='Y-m-d',###}</td> 
+                        <td class="text-center">{$vo.endtime|date='Y-m-d',###}</td> 
+                        <td class="text-center">{$vo.status|getServstutas}</td> 
+                        <td class="text-center">{$vo.type|getFollowupType}</td> 
+                        <td class="text-center">{$vo.describe|default=''}</td>  
+                        {if isset($authorizes_status)}
+                        <td class="text-center">
+                            {if $vo['servcompleted'] == '0'}
+                             <button id="servdo_{$vo.id}" value="{$vo.id}" onclick="servdo({$vo.id})" class='layui-btn layui-btn-danger'>确认
+                            </button>
+                            {else}
+                            <button class='layui-btn layui-btn-small'>
+                            已完成
+                            </button>
+                            {/if}
+                        </td> 
+                        {/if}
+                    </tr>
+                    {/volist}
+                </table>
+            </td>
+        </tr>    
+    </table>
+</table>
+<div class="hr-line-dashed"></div>
+<!--返回按钮-->
+<div class="layui-form-item text-left">
+    <button class="layui-btn" onclick="javascript:history.go(-1);" type='submit'>返回</button>
+</div>
+ <script>
+    //ajax确认服务申请
+    function servdo(id){
+        $.post("{:url("Customer/ajax_customer_apply")}",{id:id},function(res){
+            if(res == '1'){
+                $('#servdo_'+id).html('已确认');
+                $('#servdo_'+id).removeClass("layui-btn-danger").attr("'class", "layui-btn-small");
+            }
+        });
+    }
+    // $('#servdo').click(function(){
+    //     var id =$('#servdo').val();
+    //     alert(id);
+    //     $.post("{:url("Customer/ajax_customer_apply")}",{id:id},function(res){
+    //         //alert(res);
+    //     });
+    // });
+ </script>
+{/block}

@@ -1,0 +1,89 @@
+<!--
+ * User: Jasmine2
+ * Date: 2017-7-5 18:53
+ * Email: youjingqiang@gmail.com
+ * Copyright (c) Guangzhou Zhishen Data Service co,. Ltd
+-->
+{extend name='extra@admin/content'}
+
+{block name="content"}
+<div class="row">
+    <div class="col-lg-9">
+        <h1 class="text-warning" style="font-size: 20px">发表新动态</h1>
+        <hr>
+        <form action="{:url('@admin/tools/comment')}" class="layui-form layui-box" data-auto="true">
+            <div class="layui-form-item">
+                <textarea maxlength="140" autofocus placeholder="今天你做了些什么?" required="required" title="内容不能空" class="layui-textarea" name="content"></textarea>
+                <p class="text-warning pull-right">(您还可以输入140个字)</p>
+            </div>
+            <div class="layui-form-item">
+                <button class="btn btn-success">发表动态</button>
+            </div>
+        </form>
+        <h1 style="font-size: 20px">最新员工动态</h1>
+        <hr>
+        {foreach $messages as $message}
+            <div class="media">
+                <a href="javascript:void(0)"  class="pull-left" data-title="查看" data-modal="{:url('@admin/tools/commentList')}?id={$message.id}">
+                    <div class="img-circle img-face">{:mb_substr(getNickname($message.userid),0,1)}</div>
+                </a>
+                <div class="media-body">
+                    <div class="left">
+                        <div class="pull-right" style="width: 110px;">
+                            {if auth("admin/tools/delComment")}
+                            <span data-update="{$message.id}" data-field='delete' data-action='{:url("@admin/tools/delComment")}' href="javascript:void(0)" class="pull-right fa fa-trash-o msg-delete" style="float: right; margin: 0px 10px;  cursor: pointer;" data-tips-text="删除"></span>
+                            {/if}
+                            <span data-modal="{:url('@admin/tools/commentForm')}?id={$message.id}" data-title="回复" class="bpull-right fa fa-comments-o reply" style="float: right; margin: 0px 10px; cursor: pointer;" news-id="" data-tips-text="评论">
+                            </span>
+                            <div class="pull-right" style="margin-top:8px; "></div>
+                        </div>
+                        <h4 class="media-heading" style="font-weight: 600;font-size: 1.3rem;">
+                            {$message.userid|getNickname}
+                        </h4>
+                        <span style="float:left; width: 90%;">{$message.content}</span>
+                    </div>
+                </div>
+            </div>
+        <hr>
+        {/foreach}
+    </div>
+    <div class="col-lg-3">
+        <h1>&nbsp;</h1>
+        <h1>&nbsp;</h1>
+        <div class="panel panel-success">
+            <div class="panel-heading">
+                <h3 class="panel-title">个人资料</h3>
+            </div>
+            <div class="panel-body">
+                <blockquote style="padding-left: 20px">
+                    <p>
+                        {:session('user.nickname')}[{:session('user.username')}]，您好！
+                    </p>
+                    <small>
+                        手机号：<cite>{:mobile_mask(session('user.phone'))}</cite>
+                    </small>
+                    <small>
+                        登录时间：<cite>{:session('user.login_at')}</cite>
+                    </small>
+                </blockquote>
+            </div>
+        </div>
+        <div class="panel panel-info">
+            <div class="panel-heading">
+                <h3 class="panel-title">最新通知</h3>
+            </div>
+            <ul class="list-group">
+                {foreach $notice as $k => $vo}
+
+                <li class="list-group-item">
+                    {eq name='k' value='0'}
+                    <span class="badge" style="background-color: #f00;">新</span>
+                    {/eq}
+                    <a data-title="通知" data-modal="{:url('@admin/index/view_notice')}?id={$vo.id}">{$vo.title}</a>
+                </li>
+                {/foreach}
+            </ul>
+        </div>
+    </div>
+</div>
+{/block}

@@ -1,0 +1,26 @@
+<!--
+ * User: Jasmine2
+ * Date: 2017-7-6 20:40
+ * Email: youjingqiang@gmail.com
+ * Copyright (c) Guangzhou Zhishen Data Service co,. Ltd
+-->
+<div class="layui-form layui-box" style="padding: 2rem;">
+    <ul>
+        <li>
+            <h1 class=""> <i class="fa fa-user"> </i> {:getNickname($news.userid)}</h1>
+            <br>
+            <h1 class="text-info">{$news.content}</h1>
+            <p class="text-right">{$news.addtime|date='Y-m-d H:i:s',###}</p>
+        </li>
+        <ul style="padding-left: 2rem">
+            {foreach $child_news as $vo}
+            <li style="border-top: 1px dashed #dddddd;padding-top: 5px;">
+                <h1 class=""> <i class="fa fa-user"> </i> {:getNickname($vo.userid)}</h1>
+                <br>
+                <h1 class="text-info">{$vo.content}</h1>
+                <p class="text-right">{$vo.addtime|date='Y-m-d H:i:s',###}</p>
+            </li>
+            {/foreach}
+        </ul>
+    </ul>
+</div>

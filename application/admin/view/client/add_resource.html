@@ -1,0 +1,82 @@
+<!--
+ * User: Jasmine2
+ * Date: 2017-7-18 19:47
+ * Email: youjingqiang@gmail.com
+ * Copyright (c) Guangzhou Zhishen Data Service co,. Ltd
+-->
+<form class="layui-form layui-box" style='padding:25px 30px 20px 0' action="__SELF__" data-auto="true" method="post">
+
+    {if !isset($vo.resource_id)}
+    {:getSelectList($resource,'resource_id','id','name','资源',0,false,'required')}
+    {else}
+    {:getSelectList($resource,'resource_id','id','name','资源',$vo.resource_id,false,'disabled')}
+    {/if}
+    <div class="layui-form-item">
+        <label class="layui-form-label">计费方式</label>
+        <input type="hidden" name="type" value="0">
+        <div class="layui-input-block">
+            <div class="layui-btn-group">
+                <button class="layui-btn layui-btn-small" id="by_times">按量付费</button>
+                <button class="layui-btn layui-btn-small layui-btn-primary" id="by_year">包年包月</button>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="layui-form-item" data-bill-type="times">
+        <label class="layui-form-label">价格</label>
+        <div class="layui-input-block">
+            {if !isset($vo.amount)}
+            <input required type="text" class="layui-input" name="amount" pattern="^\d{1,4}(\.\d{1,2})?$" title="请输入正确的金额">
+            {else}
+            <input required type="text" class="layui-input" name="amount" value="{$vo.amount}" pattern="^\d{1,4}(\.\d{1,2})?$" title="请输入正确的金额">
+            {/if}
+            <div class="help-block">
+                <p class="text-warning"> 最大9999.99</p>
+            </div>
+        </div>
+    </div>
+    <div class="layui-form-item" data-bill-type="year">
+        <label class="layui-form-label">到期时间</label>
+        <div class="layui-input-block">
+            {if !isset($vo.expire_at)}
+            <input required name="expire_at" class="layui-input" placeholder="" value="" onclick="layui.laydate({elem: this,min: laydate.now(+1), istime: true, format: 'YYYY-MM-DD 00:00:00'})">
+            {else}
+            <input required name="expire_at" class="layui-input" placeholder="" value="{$vo.expire_at|date='Y-m-d H:i:s',###}" onclick="layui.laydate({elem: this,min: laydate.now(+1), istime: true, format: 'YYYY-MM-DD 00:00:00'})">
+            {/if}
+        </div>
+    </div>
+
+    <div class="hr-line-dashed"></div>
+    <div class="layui-form-item text-center">
+        {if isset($vo['id'])}<input type='hidden' value='{$vo.id}' name='id'/>{/if}
+        <button class="layui-btn" type='submit'>保存数据</button>
+        <button class="layui-btn layui-btn-danger" type='button' data-confirm="确定要取消编辑吗？" data-close>取消编辑</button>
+    </div>
+    <script>
+        window.form.render();
+        layui.use('laydate', function() {
+            var laydate = layui.laydate;
+        });
+        require(['jquery'], function () {
+            $("#by_times").on('click', function (e) {
+                $("input[name='type']").val('0')
+                $(this).removeClass('layui-btn-primary')
+                $("#by_year").addClass('layui-btn-primary')
+                $("[data-bill-type]").not($("[data-bill-type='times']").show()).hide();
+                return false
+            }).trigger('click')
+            $("#by_year").on('click', function (e) {
+                $("input[name='type']").val('1')
+                $(this).removeClass('layui-btn-primary')
+                $("#by_times").addClass('layui-btn-primary')
+                $("[data-bill-type]").not($("[data-bill-type='year']").show()).hide();
+                return false
+            })
+            var type = '{$vo.type|default=0}';
+            if(type == '1') {
+                $("#by_year").trigger('click')
+            }
+        });
+    </script>
+</form>

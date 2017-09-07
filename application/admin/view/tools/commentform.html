@@ -1,0 +1,16 @@
+<!--
+ * User: Jasmine2
+ * Date: 2017-7-6 20:22
+ * Email: youjingqiang@gmail.com
+ * Copyright (c) Guangzhou Zhishen Data Service co,. Ltd
+-->
+<form action="{:url('@admin/tools/comment')}" class="layui-form layui-box" data-auto="true">
+    <input type="hidden" name="pid" value="{$id|default='0'}">
+    <div class="layui-form-item">
+        <textarea maxlength="140" required="required" title="内容不能空" class="layui-textarea" name="content"></textarea>
+        <p class="text-warning pull-right">(您还可以输入140个字)</p>
+    </div>
+    <div class="layui-form-item text-right" style="padding-right: 2rem">
+        <button class="btn btn-success">发表动态</button>
+    </div>
+</form>

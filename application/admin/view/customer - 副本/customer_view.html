@@ -1,0 +1,106 @@
+<!--
+ * User: Jasmine2
+ * Date: 2017-7-4 17:48
+ * Email: youjingqiang@gmail.com
+ * Copyright (c) Guangzhou Zhishen Data Service co,. Ltd
+-->
+{extend name='extra@admin/content'}
+{block name='style'}
+<link rel="stylesheet" href="/static/plugs/viewer/viewer.min.css">
+{/block}
+{block name="content"}
+<table class="table">
+    <tr><th class="text-center th-b" colspan="11">客户基本信息</th></tr>
+    <td class="text-center" colspan="11">
+        <table class="table" style="margin-bottom: 0px;">
+            <tr class="th-b">
+                <th class="text-center">姓名</th>
+                <th class="text-center">性别</th>
+                <th class="text-center">客户状态</th>
+                <th class="text-center">身份证号</th>
+                <th class="text-center">手机号</th>
+                <th class="text-center">开户行</th>
+                <th class="text-center">银行卡号</th>
+                <th class="text-center">微信号</th>
+                <th class="text-center">QQ</th>
+                <th class="text-center">学校</th>
+                <th class="text-center">学生证号</th>
+                <th class="text-center">注册ip</th>
+            </tr>
+            <tr>
+                <td class="text-center">{$customer.name|default=''}</td>
+                <td class="text-center">{$customer.sex|default=''}</td>
+                <td class="text-center">{$customer.status|default=''}</td>
+                <td class="text-center">
+                    {$customer.sfz|default=''}<br>
+                    {$customer.sfz|getIdRegion}
+                </td>
+                <td class="text-center">
+                    {$customer.mobile|default=''} <br>
+                    {$customer.mobile|getMobileRegion}
+                </td>
+                <td class="text-center">{$customer.bank|default=''|getBankByCode}</td>
+                <td class="text-center">{$customer.bankno|default=''}</td>
+                <td class="text-center">{$customer.weixin|default=''}</td>
+                <td class="text-center">{$customer.qq|default=''}</td>
+                <td class="text-center">{$customer.school|default=''}</td>
+                <td class="text-center">{$customer.sno|default='未填写'}</td>
+                <td class="text-center">{$customer.ip|default='未填写'}<br>{$customer.ip|getIpRegion}</td>
+            </tr>
+        </table>
+    </td>
+    <!-- 认证信息 -->
+    <tr>
+        <th class="th-b text-center">认证信息</th>
+        <td class="text-center" colspan="10">
+            <table class="table" style="margin-bottom: 0px;">
+                {if($customer['jhrxx'])}
+                    {foreach $customer['jhrxx'] as $vo}
+                        <tr>
+                            <th class="text-center th-b">{$vo.relation}</th>
+                            <td class="text-center">{$vo.name}</td>
+                            <td class="text-center">{$vo.mobile}</td>
+                            <td class="text-center">{$vo.address}</td>
+                        </tr>
+                    {/foreach}
+                {/if}
+            </table>
+        </td>
+    </tr>
+
+    <!-- 联系人信息 -->
+    <tr>
+        <th class="th-b text-center">联系人信息</th>
+        <td class="text-center" colspan="10">
+
+        </td>
+    </tr>
+
+    <!-- 认证资料 -->
+    <tr>
+        <th class="th-b text-center">认证资料</th>
+        <td class="nowrap rzinfo" colspan="10">
+            {if($customer['exhibit'])}
+            {foreach $customer['exhibit'] as $vo}
+            <img style="height:auto;max-height:80px;min-width:80px;border: 1px solid #dddddd;border-radius: 5px;padding: 5px;" src="{$vo.url}" data-tips-text="{$vo.alt}" data-src="{$vo.url}"/>
+            {/foreach}
+            {/if}
+        </td>
+    </tr>
+
+    <!-- 关联信息 -->
+    <tr><th class="text-center th-b" colspan="11">关联信息</th></tr>
+</table>
+<script src="/static/plugs/viewer/viewer.min.js"></script>
+<script>
+    var Viewer = window.Viewer;
+    var pictures = document.querySelector(".rzinfo");
+    var options = {
+        inline: false,
+        url: 'data-src',
+        fullscreen:true
+    };
+    var viewer;
+    viewer = new Viewer(pictures, options);
+</script>
+{/block}

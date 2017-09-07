@@ -1,0 +1,47 @@
+<!--
+ * User: Jasmine2
+ * Date: 2017-7-17 18:28
+ * Email: youjingqiang@gmail.com
+ * Copyright (c) Guangzhou Zhishen Data Service co,. Ltd
+-->
+<form class="layui-form layui-box" style='padding:25px 30px 20px 0' action="__SELF__" data-auto="true" method="post">
+
+    <div class="layui-form-item">
+        <label class="layui-form-label">资源名称</label>
+        <div class="layui-input-block">
+            {if $vo and isset($vo.name)}
+            <input type="text" readonly="" disabled="" name="name" value='{$vo.name|default=""}' required="required" title="请输入资源名称" placeholder="请输入资源名称" class="layui-input disabled" pattern="^[a-zA-Z0-9-_]+$">
+            {else}
+            <input type="text" name="name" value='{$vo.name|default=""}' required="required" title="请输入资源名称" placeholder="请输入资源名称" class="layui-input" >
+            {/if}
+        </div>
+    </div>
+
+    <div class="layui-form-item">
+        <label class="layui-form-label">资源路径</label>
+        <div class="layui-input-block">
+            {if $vo and isset($vo.path)}
+            <input type="text" name="path" value='{$vo.path|default=""}' disabled="disabled" required="required" title="请输入资源路径" placeholder="请输入资源路径" class="layui-input disabled" pattern="^[a-z]([a-z0-9\/]+)$">
+            {else}
+            <input type="text" name="path" value='{$vo.path|default=""}' required="required" title="请输入资源路径" placeholder="请输入资源路径" class="layui-input" pattern="^[a-z]([a-z0-9\/]+)$">
+            {/if}
+            <div class="help-block">
+                <p class="text-warning">注意:只接收类似 api/v1/test 的地址,前后都不必包含'/'</p>
+            </div>
+        </div>
+    </div>
+
+    <input type="hidden" name="status" value="99">
+    <div class="hr-line-dashed"></div>
+
+    <div class="layui-form-item text-center">
+        {if isset($vo['id'])}<input type='hidden' value='{$vo.id}' name='id'/>{/if}
+        <button class="layui-btn" type='submit'>保存</button>
+        <button class="layui-btn layui-btn-danger" type='button' data-confirm="确定要取消编辑吗？" data-close>取消</button>
+    </div>
+
+    <script>
+        window.form.render();
+
+    </script>
+</form>

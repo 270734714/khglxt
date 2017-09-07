@@ -1,0 +1,91 @@
+{extend name="extra@admin/content"}
+
+{block name="content"}
+<form onsubmit="return false;" action="__SELF__" data-auto="true" method="post" class='form-horizontal' style='padding-top:20px'>
+
+    <div class="form-group">
+        <label class="col-sm-2 control-label">还款渠道</label>
+        <div class='col-sm-8'>
+            <select class="layui-input" name="sms_type" required="required">
+                <!--{if sysconf('payment_type') eq 'lianlian'}-->
+                <option selected="selected" value='lianlian'>连连支付(快捷或认证)</option>
+                <!--{/if}-->
+            </select>
+            <div class="help-block" data-storage-type="lianlian">
+                若还没有连连帐号，请点击
+                <a target="_blank" href="https://b.lianlianpay.com/trader/login.htm">申请</a>
+            </div>
+        </div>
+    </div>
+
+    <div class="hr-line-dashed" data-storage-type="lianlian"></div>
+
+    <div class="form-group" data-storage-type="lianlian">
+        <label class="col-sm-2 control-label"><span class="nowrap">接口地址</span></label>
+        <div class='col-sm-8'>
+            <input type="url" name="ll_payment_gateway" required="required" title="请输入接口地址"
+                   placeholder="请输入接口地址" value="{:sysconf('ll_payment_gateway')}" maxlength="255" class="layui-input">
+        </div>
+    </div>
+
+    <div class="form-group" data-storage-type="lianlian">
+        <label class="col-sm-2 control-label"><span class="nowrap">商户号</span></label>
+        <div class='col-sm-8'>
+            <input type="text" name="ll_payment_oid" required="required" title="请输入商户号"
+                   placeholder="请输入商户号" value="{:sysconf('ll_payment_oid')}" pattern="^\d+$" class="layui-input">
+        </div>
+    </div>
+
+    <div class="form-group" data-storage-type="lianlian">
+        <label class="col-sm-2 control-label"><span class="nowrap">连连公钥</span></label>
+        <div class='col-sm-8'>
+            <textarea name="ll_payment_public_key" required="required" title="请输入连连公钥"
+                      placeholder="请输入连连公钥" class="layui-textarea">{:sysconf('ll_payment_public_key')}</textarea>
+        </div>
+    </div>
+
+    <div class="form-group" data-storage-type="lianlian">
+        <label class="col-sm-2 control-label"><span class="nowrap">商户私钥</span></label>
+        <div class='col-sm-8'>
+            <textarea name="ll_payment_private_key" required="required" title="请输入商户私钥"
+                      placeholder="请输入商户私钥" class="layui-textarea">{:sysconf('ll_payment_private_key')}</textarea>
+        </div>
+    </div>
+
+
+    <div class="hr-line-dashed"></div>
+
+    <div class="col-sm-4 col-sm-offset-2">
+        <div class="layui-form-item text-center">
+            <button class="layui-btn" type="submit">保存配置</button>
+        </div>
+    </div>
+
+</form>
+<form onsubmit="return false;" action="{:url('admin/config/sms_test')}" data-auto="true" method="post" class='form-horizontal' style='padding-top:20px'>
+    <div class="hr-line-dashed" data-storage-type="Chuanglan"></div>
+
+    <div class="form-group" data-storage-type="Chuanglan">
+        <label class="col-sm-2 control-label"><span class="nowrap">手机号码</span></label>
+        <div class='col-sm-8'>
+            <input type="text" name="mobile" required="required" title="请输入账号"
+                   placeholder="请输入手机号码" value="" maxlength="11" class="layui-input">
+        </div>
+    </div>
+
+
+</form>
+
+
+
+{/block}
+
+{block name="script"}
+<script>
+    $(function () {
+        $('[name="sms_type"]').on('change', function () {
+            $("[data-storage-type]").not($("[data-storage-type='" + $(this).val() + "']").show()).hide();
+        }).trigger('change');
+    });
+</script>
+{/block}
